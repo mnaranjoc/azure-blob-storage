@@ -1,21 +1,25 @@
 using System.Diagnostics;
 using AzureBlobStorageWebApp.Models;
+using AzureBlobStorageWebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AzureBlobStorageWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IContainerService _containerService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IContainerService containerService, ILogger<HomeController> logger)
         {
+            _containerService = containerService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var containers = await _containerService.GetAllContainer();
+            return View(containers);
         }
 
         public IActionResult Privacy()
