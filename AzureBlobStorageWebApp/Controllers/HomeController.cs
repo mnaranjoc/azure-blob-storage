@@ -22,6 +22,12 @@ namespace AzureBlobStorageWebApp.Controllers
             return View(containers);
         }
 
+        public async Task<IActionResult> Delete(string name)
+        {
+            await _containerService.DeleteContainer(name);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

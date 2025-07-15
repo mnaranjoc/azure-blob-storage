@@ -17,9 +17,9 @@ namespace AzureBlobStorageWebApp.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteContainer(string containerName)
+        public async Task DeleteContainer(string containerName)
         {
-            throw new NotImplementedException();
+            await _blobClient.DeleteBlobContainerAsync(containerName);
         }
 
         public async Task<List<string>> GetAllContainer()

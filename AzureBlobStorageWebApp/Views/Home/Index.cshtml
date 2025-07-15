@@ -16,12 +16,16 @@
                     <th>
                         Container Name
                     </th>
+                    <th></th>
                 </tr>
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>
                             @Html.DisplayFor(mbox => item)
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-name="@item">Delete</a>
                         </td>
                     </tr>
                 }
