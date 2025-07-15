@@ -1,4 +1,5 @@
 using Azure.Storage.Blobs;
+using AzureBlobStorageWebApp.Services;
 
 namespace AzureBlobStorageWebApp
 {
@@ -10,7 +11,8 @@ namespace AzureBlobStorageWebApp
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddSingleton(u => new BlobServiceClient(builder.Configuration.GetValue<string>("BlobConnection")));
+            builder.Services.AddSingleton(u => new BlobServiceClient(builder.Configuration.GetValue<string>("StorageConnection")));
+            builder.Services.AddSingleton<IContainerService, ContainerService>();
 
             var app = builder.Build();
 
