@@ -36,7 +36,9 @@
                             <td>
                                 @Html.DisplayFor(mbox => blob)
                             </td>
-                            <td />
+                            <td class="text-end">
+                                <a class="btn btn-danger" asp-action="DeleteBlob" asp-route-name="@blob" asp-route-containerName="@item.Name">Delete</a>
+                            </td>
                         </tr>
                     }
                 </table>
