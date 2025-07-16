@@ -1,9 +1,11 @@
-﻿namespace AzureBlobStorageWebApp.Services
+﻿using AzureBlobStorageWebApp.Models;
+
+namespace AzureBlobStorageWebApp.Services
 {
     public interface IContainerService
     {
-        Task<List<string>> GetAllContainerAndBlobs();
-        Task<List<string>> GetAllContainer();
+        Task<List<ContainerModel>> GetAllContainerAndBlobs();
+        Task<List<ContainerModel>> GetAllContainer();
         Task CreateContainer(string containerName);
         Task DeleteContainer(string containerName);
     }

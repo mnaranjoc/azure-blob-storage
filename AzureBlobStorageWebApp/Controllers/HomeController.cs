@@ -18,7 +18,7 @@ namespace AzureBlobStorageWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var containers = await _containerService.GetAllContainer();
+            var containers = await _containerService.GetAllContainerAndBlobs();
             return View(containers);
         }
 

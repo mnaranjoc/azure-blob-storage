@@ -1,5 +1,6 @@
 ﻿
 using Azure.Storage.Blobs;
+using AzureBlobStorageWebApp.Models;
 
 namespace AzureBlobStorageWebApp.Services
 {
@@ -22,21 +23,32 @@ namespace AzureBlobStorageWebApp.Services
             await _blobClient.DeleteBlobContainerAsync(containerName);
         }
 
-        public async Task<List<string>> GetAllContainer()
+        public async Task<List<ContainerModel>> GetAllContainer()
         {
-            var containerName = new List<string>();
+            var containers = new List<ContainerModel>();
 
             await foreach (var item in _blobClient.GetBlobContainersAsync())
             {
-                containerName.Add(item.Name);
+                containers.Add(new() { Name = item.Name, Blobs = [] });
             }
 
-            return containerName;
+            return containers;
         }
 
-        public Task<List<string>> GetAllContainerAndBlobs()
+        public async Task<List<ContainerModel>> GetAllContainerAndBlobs()
         {
-            throw new NotImplementedException();
+            var containers = await GetAllContainer();
+            foreach (var container in containers)
+            {
+                var blobContainerClient = _blobClient.GetBlobContainerClient(container.Name);
+                var blobs = blobContainerClient.GetBlobsAsync();
+                await foreach (var blob in blobs)
+                {
+                    container.Blobs.Add(blob.Name);
+                }
+            }
+
+            return containers;
         }
     }
 }

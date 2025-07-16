@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model List<ContainerModel>
 <br />
 <br />
 <div class="border backgroundWhite p-4 mx-auto" style="max-width: 70%">
@@ -19,25 +19,28 @@
     <div>
         @if (Model != null && Model.Count() > 0)
         {
-            <table class="table table-striped border">
-                <tr class="table-secondary">
-                    <th>
-                        Container Name
-                    </th>
-                    <th></th>
-                </tr>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(mbox => item)
-                        </td>
-                        <td>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-name="@item">Delete</a>
-                        </td>
+            @foreach (var item in Model)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            @Html.DisplayFor(mbox => item.Name)
+                        </th>
+                        <th class="text-end">
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-name="@item.Name">Delete</a>
+                        </th>
                     </tr>
-                }
-            </table>
+                    @foreach (var blob in item.Blobs)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(mbox => blob)
+                            </td>
+                            <td />
+                        </tr>
+                    }
+                </table>
+            }
         }
     </div>
 </div>
