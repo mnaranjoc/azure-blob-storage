@@ -12,9 +12,9 @@ namespace AzureBlobStorageWebApp.Services
             _blobClient = blobClient;
         }
 
-        public Task CreateContainer(string containerName)
+        public async Task CreateContainer(string containerName)
         {
-            throw new NotImplementedException();
+            await _blobClient.CreateBlobContainerAsync(containerName);
         }
 
         public async Task DeleteContainer(string containerName)

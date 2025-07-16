@@ -22,6 +22,15 @@ namespace AzureBlobStorageWebApp.Controllers
             return View(containers);
         }
 
+        public async Task<IActionResult> Create(string name)
+        {
+            if (!String.IsNullOrWhiteSpace(name))
+            {
+                await _containerService.CreateContainer(name);
+            }
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> Delete(string name)
         {
             await _containerService.DeleteContainer(name);
