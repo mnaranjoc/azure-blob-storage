@@ -82,5 +82,19 @@ namespace AzureBlobStorageWebApp.Services
             var blobClient = blobContainerClient.GetBlobClient(name);
             return blobClient.Uri.AbsoluteUri;
         }
+
+        public async Task UpdateBlobMetadata(string name, string containerName)
+        {
+            var blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(name);
+
+            await blobClient.SetMetadataAsync(
+                new Dictionary<string, string>()
+                {
+                    { "Metadata1", Guid.NewGuid().ToString() },
+                    { "Metadata2", Guid.NewGuid().ToString() }
+                }
+            );
+        }
     }
 }

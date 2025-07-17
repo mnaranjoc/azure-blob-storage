@@ -60,6 +60,12 @@ namespace AzureBlobStorageWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> UpdateBlobMetadata(string name, string containerName)
+        {
+            await _containerService.UpdateBlobMetadata(name, containerName);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
