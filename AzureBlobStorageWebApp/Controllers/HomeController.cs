@@ -43,6 +43,12 @@ namespace AzureBlobStorageWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> PreviewBlob(string name, string containerName)
+        {
+            await _containerService.PreviewBlob(name, containerName);
+            return Redirect(await _containerService.PreviewBlob(name, containerName));
+        }
+
         public IActionResult Privacy()
         {
             return View();

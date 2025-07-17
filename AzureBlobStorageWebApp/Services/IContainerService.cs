@@ -12,5 +12,6 @@ namespace AzureBlobStorageWebApp.Services
 
         // Blobs
         Task<bool> DeleteBlob(string name, string containerName);
+        Task<string> PreviewBlob(string name, string containerName);
     }
 }

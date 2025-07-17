@@ -57,5 +57,12 @@ namespace AzureBlobStorageWebApp.Services
 
             return containers;
         }
+
+        public async Task<string> PreviewBlob(string name, string containerName)
+        {
+            var blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(name);
+            return blobClient.Uri.AbsoluteUri;
+        }
     }
 }
