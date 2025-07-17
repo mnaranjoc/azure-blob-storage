@@ -9,7 +9,7 @@
         <div class="col">
             <form asp-action="Create" method="post" style="display: flex; justify-content: space-between; align-items: center; gap: 6px;">
                 <label>Name:</label>
-                <input type"text" name="name" class="form-control" />
+                <input type="text" name="name" class="form-control" />
                 <button type="submit" class="btn btn-info" style="min-width: fit-content">Create New</button>
             </form>
         </div>
@@ -22,12 +22,21 @@
             @foreach (var item in Model)
             {
                 <table class="table table-striped border">
-                    <tr class="table-secondary">
-                        <th>
+                    <tr class="table-primary">
+                        <th colspan="2">
                             @Html.DisplayFor(mbox => item.Name)
                         </th>
-                        <th class="text-end">
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-name="@item.Name">Delete</a>
+                    </tr>
+                    <tr class="table-secondary">
+                        <th colspan="2" class="text-end">
+                            <div class="text-end" style=" display: flex; justify-content: space-between; align-items: center; gap: 6px;">
+                                <form method="post" asp-action="CreateBlob" enctype="multipart/form-data" style=" display: flex; justify-content: space-between; align-items: center; gap: 6px;">
+                                    <input hidden type="text" name="containerName" class="form-control" value="@item.Name" />
+                                    <input type="file" name="file" class="form-control" />
+                                    <button type="submit" class="btn btn-success" style="min-width: fit-content">Add</button>
+                                </form>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-name="@item.Name">Delete container</a>
+                            </div>
                         </th>
                     </tr>
                     @foreach (var blob in item.Blobs)

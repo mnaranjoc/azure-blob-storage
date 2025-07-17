@@ -1,5 +1,6 @@
 ﻿
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using AzureBlobStorageWebApp.Models;
 
 namespace AzureBlobStorageWebApp.Services
@@ -11,6 +12,20 @@ namespace AzureBlobStorageWebApp.Services
         public ContainerService(BlobServiceClient blobClient)
         {
             _blobClient = blobClient;
+        }
+
+        public async Task<bool> CreateBlob(string name, string containerName, IFormFile file)
+        {
+            var blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(name);
+            var httpHeaders = new BlobHttpHeaders()
+            {
+                ContentType = file.ContentType
+            };
+
+            var result = await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders);
+
+            return result != null;
         }
 
         public async Task CreateContainer(string containerName)

@@ -49,6 +49,17 @@ namespace AzureBlobStorageWebApp.Controllers
             return Redirect(await _containerService.PreviewBlob(name, containerName));
         }
 
+        public async Task<IActionResult> CreateBlob(IFormFile file, string containerName)
+        {
+            if (file != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName) + "_" + Guid.NewGuid() + Path.GetExtension(file.FileName);
+                await _containerService.CreateBlob(fileName, containerName, file);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
