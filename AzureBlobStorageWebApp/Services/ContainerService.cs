@@ -22,8 +22,9 @@ namespace AzureBlobStorageWebApp.Services
             {
                 ContentType = file.ContentType
             };
+            var metadata = new Dictionary<string, string>() { { "Metadata1", "value" }, { "Metadata2", "value" } };
 
-            var result = await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders);
+            var result = await blobClient.UploadAsync(file.OpenReadStream(), httpHeaders, metadata);
 
             return result != null;
         }
@@ -66,7 +67,9 @@ namespace AzureBlobStorageWebApp.Services
                 var blobs = blobContainerClient.GetBlobsAsync();
                 await foreach (var blob in blobs)
                 {
-                    container.Blobs.Add(blob.Name);
+                    var blobClient = blobContainerClient.GetBlobClient(blob.Name);
+                    var properties = await blobClient.GetPropertiesAsync();
+                    container.Blobs.Add(new BlobModel() { Name = blob.Name, Metadata = properties.Value.Metadata });
                 }
             }
 
