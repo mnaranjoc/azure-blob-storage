@@ -66,6 +66,12 @@ namespace AzureBlobStorageWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> DeleteBlobMetadata(string name, string containerName)
+        {
+            await _containerService.DeleteBlobMetadata(name, containerName);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

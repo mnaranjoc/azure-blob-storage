@@ -41,6 +41,14 @@ namespace AzureBlobStorageWebApp.Services
             return await blobClient.DeleteIfExistsAsync();
         }
 
+        public async Task DeleteBlobMetadata(string name, string containerName)
+        {
+            var blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(name);
+
+            await blobClient.SetMetadataAsync(new Dictionary<string, string>());
+        }
+
         public async Task DeleteContainer(string containerName)
         {
             await _blobClient.DeleteBlobContainerAsync(containerName);

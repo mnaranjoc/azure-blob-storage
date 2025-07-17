@@ -51,6 +51,7 @@
                             </td>
                             <td style="display: flex; flex-direction: column; gap: 6px;">
                                 <a class="btn btn-info" asp-action="UpdateBlobMetadata" asp-route-name="@blob.Name" asp-route-containerName="@item.Name">Update metadata</a>
+                                <a class="btn btn-warning" asp-action="DeleteBlobMetadata" asp-route-name="@blob.Name" asp-route-containerName="@item.Name">Remove metadata</a>
                                 <a class="btn btn-danger" asp-action="DeleteBlob" asp-route-name="@blob.Name" asp-route-containerName="@item.Name">Delete</a>
                             </td>
                         </tr>
