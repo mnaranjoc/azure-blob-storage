@@ -92,11 +92,26 @@ namespace AzureBlobStorageWebApp.Services
             {
                 var blobContainerClient = _blobClient.GetBlobContainerClient(container.Name);
                 var blobs = blobContainerClient.GetBlobsAsync();
+
+                var blobSasBuilder = new BlobSasBuilder()
+                {
+                    BlobContainerName = blobContainerClient.Name,
+                    Resource = "c", // container
+                    ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(1),
+                };
+                blobSasBuilder.SetPermissions(BlobAccountSasPermissions.Read);
+                var sasContainerSignature = blobContainerClient.GenerateSasUri(blobSasBuilder).AbsoluteUri.Split('?')[1].ToString();
+
                 await foreach (var blob in blobs)
                 {
                     var blobClient = blobContainerClient.GetBlobClient(blob.Name);
                     var properties = await blobClient.GetPropertiesAsync();
-                    container.Blobs.Add(new BlobModel() { Name = blob.Name, Metadata = properties.Value.Metadata });
+                    container.Blobs.Add(new BlobModel()
+                    {
+                        Name = blob.Name,
+                        Uri = blobClient.Uri.AbsoluteUri + "?" + sasContainerSignature,
+                        Metadata = properties.Value.Metadata
+                    });
                 }
             }
 

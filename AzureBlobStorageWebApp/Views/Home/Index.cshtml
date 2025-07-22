@@ -43,7 +43,7 @@
                     {
                         <tr>
                             <td>
-                                <a asp-action="PreviewBlob" asp-route-name="@blob.Name" asp-route-containerName="@item.Name">@Html.DisplayFor(mbox => blob.Name)</a>
+                                <a href="@blob.Uri">@Html.DisplayFor(mbox => blob.Name)</a>
                                 @foreach (var data in blob.Metadata)
                                 {
                                     <p>@data.Key: @data.Value</p>
