@@ -16,5 +16,6 @@ namespace AzureBlobStorageWebApp.Services
         Task<bool> CreateBlob(string name, string containerName, IFormFile file);
         Task UpdateBlobMetadata(string name, string containerName);
         Task DeleteBlobMetadata(string name, string containerName);
+        Task<Uri> GeneratePublicURL(string name, string containerName);
     }
 }

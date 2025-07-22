@@ -72,6 +72,12 @@ namespace AzureBlobStorageWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> PreviewWithSasToken(string name, string containerName)
+        {
+            var publicURL = await _containerService.GeneratePublicURL(name, containerName);
+            return Redirect(publicURL.AbsoluteUri);
+        }
+
         public IActionResult Privacy()
         {
             return View();

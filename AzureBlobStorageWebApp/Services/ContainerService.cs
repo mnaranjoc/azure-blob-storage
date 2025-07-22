@@ -1,6 +1,7 @@
 ﻿
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 using AzureBlobStorageWebApp.Models;
 
 namespace AzureBlobStorageWebApp.Services
@@ -52,6 +53,24 @@ namespace AzureBlobStorageWebApp.Services
         public async Task DeleteContainer(string containerName)
         {
             await _blobClient.DeleteBlobContainerAsync(containerName);
+        }
+
+        public Task<Uri> GeneratePublicURL(string name, string containerName)
+        {
+            var blobContainerClient = _blobClient.GetBlobContainerClient(containerName);
+            var blobClient = blobContainerClient.GetBlobClient(name);
+
+            var blobSasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = containerName,
+                BlobName = name,
+                Resource = "b", // blob
+                ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(5),
+            };
+
+            blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+            return Task.FromResult<Uri>(blobClient.GenerateSasUri(blobSasBuilder));
         }
 
         public async Task<List<ContainerModel>> GetAllContainer()
